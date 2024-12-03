@@ -7,6 +7,7 @@ use std::{
 use regex::Regex;
 
 pub fn run_day() -> anyhow::Result<()> {
+    println!("=== DAY 01 ===");
     let input_file =
         BufReader::new(File::open("./inputs/day01.txt").expect("failed to open input file"));
 
