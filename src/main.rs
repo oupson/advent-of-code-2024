@@ -6,6 +6,7 @@ mod day05;
 mod day06;
 mod day07;
 mod day08;
+mod day09;
 
 fn main() -> anyhow::Result<()> {
     day01::run_day()?;
@@ -16,5 +17,6 @@ fn main() -> anyhow::Result<()> {
     day06::run_day()?;
     day07::run_day()?;
     day08::run_day()?;
+    day09::run_day()?;
     Ok(())
 }
