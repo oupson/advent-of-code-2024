@@ -6,7 +6,7 @@ use std::{
 use regex::{Captures, Regex};
 
 pub fn run_day() -> anyhow::Result<()> {
-    println!("=== DAY 02 ===");
+    println!("=== DAY 04 ===");
 
     let res_part_one = {
         let input_file =

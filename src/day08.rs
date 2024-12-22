@@ -4,7 +4,7 @@ use std::{
 };
 
 pub fn run_day() -> anyhow::Result<()> {
-    println!("=== DAY 07 ===");
+    println!("=== DAY 08 ===");
 
     let res_part_one = {
         let input_file =

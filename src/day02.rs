@@ -73,43 +73,25 @@ where
     Ok(res)
 }
 
-fn is_safe_nice<I>(mut line: I) -> bool
-where
-    I: Iterator<Item = i64>,
-{
-    let first = line.next().unwrap();
-    let mut prev = line.next().unwrap();
-
-    let mut fault = false;
-
-    let diff = (prev - first).abs();
-    if diff > 0 && diff < 4 {
-        let is_decreasing = first > prev;
-
-        while let Some(next) = line.next() {
-            let diff = (next - prev).abs();
-            if diff > 0 && diff < 4 {
-                if next > prev && is_decreasing || next < prev && !is_decreasing {
-                    if fault {
-                        return false;
-                    } else {
-                        fault = true;
-                        continue;
-                    }
-                }
-                prev = next;
-            } else {
-                if fault {
-                    return false;
-                } else {
-                    fault = true;
-                    continue;
-                }
-            }
-        }
+fn is_safe_nice2(u: &[i64], consumed: bool, incr: i64, decr: i64, prev: i64) -> bool {
+    if u.is_empty() {
         true
     } else {
-        false
+        let value = u[0];
+
+        let diff = (prev - value).abs();
+
+        let (incr, decr) = if prev < value {
+            (incr + 1, decr)
+        } else {
+            (incr, decr + 1)
+        };
+
+        let impossible = diff == 0 || diff > 3 || (incr != 0 && decr != 0);
+
+        let i = !impossible && is_safe_nice2(&u[1..], consumed, incr, decr, value);
+
+        return i || (!consumed && is_safe_nice2(&u[1..], true, incr, decr, prev));
     }
 }
 
@@ -119,8 +101,15 @@ where
 {
     let res = lines
         .filter_map(|l| {
-            let op = l.split(' ').map(|n| n.parse::<i64>().unwrap());
-            if is_safe_nice(op) {
+            let op = l
+                .split(' ')
+                .map(|n| n.parse::<i64>().unwrap())
+                .collect::<Vec<_>>();
+
+            let test = is_safe_nice2(&op[1..], false, 0, 0, op[0])
+                || is_safe_nice2(&op[2..], true, 0, 0, op[1]);
+
+            if test {
                 Some(())
             } else {
                 None
